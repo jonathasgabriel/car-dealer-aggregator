@@ -9,8 +9,8 @@ export const Container = styled.div`
   ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 35px;
-    margin: 30px;
+    grid-gap: 25px;
+    margin-top: 30px;
     list-style: none;
   }
 `;
@@ -23,7 +23,7 @@ export const SearchForm = styled.form`
   flex-direction: column;
   justify-content: space-between;
   width: 300px;
-  height: 400px;
+  height: 800px;
   border-radius: 5px;
 
   button {
@@ -70,34 +70,25 @@ export const CarItem = styled.li`
   background: #fff;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
-  height: 600px;
-
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 0;
-  }
+  height: 320px;
+  width: 450px;
 
   img {
-    max-height: 300px;
-    max-width: 400px;
+    max-height: 200px;
+    max-width: 200px;
     border-radius: 8px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   strong {
-    margin-top: 10px;
-    font-size: 24px;
+    font-size: 16px;
     display: block;
   }
 
   span {
     margin-top: 10px;
     font-size: 16px;
-    display: block;
   }
 
   a {
@@ -105,3 +96,23 @@ export const CarItem = styled.li`
     justify-self: baseline;
   }
 `;
+
+export const Title = styled.div``;
+
+export const Content = styled.div`
+  display: flex;
+
+  span {
+    display: block;
+  }
+`;
+
+export const Description = styled.span`
+  display: block;
+  line-height: 1.3;
+  white-space: pre-line;
+  margin-left: 5px;
+  overflow: auto;
+`;
+
+export const Price = styled.div``;

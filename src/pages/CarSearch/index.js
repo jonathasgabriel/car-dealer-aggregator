@@ -13,6 +13,10 @@ import {
   Filter,
   FilterTitle,
   Input,
+  Title,
+  Content,
+  Price,
+  Description,
 } from './styles';
 
 export default function CarSearch() {
@@ -22,6 +26,9 @@ export default function CarSearch() {
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
   const [model, setModel] = useState('');
+  const [yearOptions, setYearOptions] = useState([]);
+  const [startYear, setStartYear] = useState([]);
+  const [endYear, setEndYear] = useState([]);
 
   useEffect(() => {
     async function loadSelectOptions() {
@@ -47,6 +54,18 @@ export default function CarSearch() {
           };
         })
       );
+
+      const year = 1980;
+      const years = Array.from(new Array(60), (val, index) => index + year);
+
+      setYearOptions(
+        years.map(y => {
+          return {
+            value: y,
+            label: y,
+          };
+        })
+      );
     }
 
     loadSelectOptions();
@@ -55,11 +74,11 @@ export default function CarSearch() {
   async function loadCars() {
     const response = await api.get('obterAnuncios', {
       params: {
-        categoria: category.value,
-        marca: brand.value,
-        modelo: model,
-        // anoInicio: '2015',
-        // anoFim: '2019',
+        categoria: 'CARROS', // category.value,
+        marca: 'FIAT', // brand.value,
+        modelo: 'uno', // model,
+        anoInicio: '2012', // startYear.value,
+        anoFim: '2016', // endYear.value,
         // valorInicio: '',
         // valorFim: '',
         // cidade: '',
@@ -82,11 +101,42 @@ export default function CarSearch() {
     );
   }
 
+  useEffect(() => {
+    async function test() {
+      const response = await api.get('obterAnuncios', {
+        params: {
+          categoria: 'CARROS', // category.value,
+          marca: 'FIAT', // brand.value,
+          modelo: 'uno', // model,
+          anoInicio: '2012', // startYear.value,
+          anoFim: '2016', // endYear.value,
+          // valorInicio: '',
+          // valorFim: '',
+          // cidade: '',
+          // estado: 'RS',
+          limiteBusca: 90,
+          // ordemPreco: '',
+        },
+      });
+
+      setCars(
+        response.data.map(car => {
+          return {
+            ...car,
+            shortDescription:
+              car.dadosGerais.length > 160
+                ? `${car.dadosGerais.slice(0, 157)}...`
+                : car.dadosGerais,
+          };
+        })
+      );
+    }
+
+    test();
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
-    console.tron.log(category.value);
-    console.tron.log(brand.value);
-    console.tron.log(model);
     loadCars();
   }
 
@@ -116,6 +166,24 @@ export default function CarSearch() {
             <FilterTitle>Modelo</FilterTitle>
             <Input onChange={e => setModel(e.target.value)} />
           </Filter>
+          <Filter>
+            <FilterTitle>Ano Inicio</FilterTitle>
+            <Select
+              isSearchable
+              isClearable
+              options={yearOptions}
+              onChange={e => setStartYear(e)}
+            />
+          </Filter>
+          <Filter>
+            <FilterTitle>Ano Fim</FilterTitle>
+            <Select
+              isSearchable
+              isClearable
+              options={yearOptions}
+              onChange={e => setEndYear(e)}
+            />
+          </Filter>
         </Filters>
 
         <button type="submit">
@@ -128,18 +196,20 @@ export default function CarSearch() {
           ? 'Não foram encontrados resultados'
           : cars.map(car => (
               <CarItem key={String(car.urlOrigemBusca)}>
-                <div>
+                <Title>
                   <strong> {car.tituloAnuncio}</strong>
-                </div>
-                <div>
-                  <img src={car.imagem} alt="car" />
-                  <span>{car.endereco}</span>
-                  <span>{car.shortDescription}</span>
-                </div>
-                <div>
+                </Title>
+                <Content>
+                  <div>
+                    <img src={car.imagem} alt="car" />
+                    <span>{car.endereco}</span>
+                  </div>
+                  <Description>{car.shortDescription}</Description>
+                </Content>
+                <Price>
                   <strong>R$ {car.valorFormatado}</strong>
                   <a href={car.urlOrigemBusca}>Ir para a página</a>
-                </div>
+                </Price>
               </CarItem>
             ))}
       </ul>
