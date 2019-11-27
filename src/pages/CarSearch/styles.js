@@ -1,26 +1,67 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 800px;
-  margin: 50px auto;
-
+  max-width: 1500px;
+  margin: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 35px;
-    margin-top: 30px;
+    margin: 30px;
     list-style: none;
   }
 `;
 
-export const Filters = styled.div`
-  height: 200px;
-  width: 1200px;
-  background: #7159c1;
+export const SearchForm = styled.form`
+  margin: 30px;
+  padding: 15px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 300px;
+  height: 400px;
+  border-radius: 5px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    border-radius: 4px;
+    background-color: #2980b9;
+    color: #fff;
+    font-family: Roboto;
+    font-size: 14px;
+  }
+`;
+export const FilterTitle = styled.strong`
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: bold;
   margin-top: 15px;
+  margin-bottom: 10px;
+`;
+
+export const Filters = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+export const Filter = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`;
+
+export const Input = styled.input`
+  height: 38px;
+  padding: 10px;
 `;
 
 export const CarItem = styled.li`
