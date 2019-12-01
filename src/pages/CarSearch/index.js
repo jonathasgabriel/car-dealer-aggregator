@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { MdSearch } from 'react-icons/md';
 
+// import autoCarro from '~/assets/autoCarro.png';
+// import mercadoLivre from '~/assets/mercadoLivre.png';
+// import olx from '~/assets/olx.png';
+// import webMotors from '~/assets/webMotors.png';
+
 import api from '~/services/api';
 
 import {
@@ -83,7 +88,7 @@ export default function CarSearch() {
         // valorFim: '',
         // cidade: '',
         // estado: 'RS',
-        limiteBusca: 3,
+        limiteBusca: 300,
         // ordemPreco: '',
       },
     });
@@ -100,40 +105,6 @@ export default function CarSearch() {
       })
     );
   }
-
-  useEffect(() => {
-    async function test() {
-      const response = await api.get('obterAnuncios', {
-        params: {
-          categoria: 'CARROS', // category.value,
-          marca: 'FIAT', // brand.value,
-          modelo: 'uno', // model,
-          anoInicio: '2012', // startYear.value,
-          anoFim: '2016', // endYear.value,
-          // valorInicio: '',
-          // valorFim: '',
-          // cidade: '',
-          // estado: 'RS',
-          limiteBusca: 90,
-          // ordemPreco: '',
-        },
-      });
-
-      setCars(
-        response.data.map(car => {
-          return {
-            ...car,
-            shortDescription:
-              car.dadosGerais.length > 160
-                ? `${car.dadosGerais.slice(0, 157)}...`
-                : car.dadosGerais,
-          };
-        })
-      );
-    }
-
-    test();
-  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -195,7 +166,7 @@ export default function CarSearch() {
         {cars.length === 0
           ? 'Não foram encontrados resultados'
           : cars.map(car => (
-              <CarItem key={String(car.urlOrigemBusca)}>
+              <CarItem key={String(car.urlAnuncio)}>
                 <Title>
                   <strong> {car.tituloAnuncio}</strong>
                 </Title>
@@ -208,7 +179,7 @@ export default function CarSearch() {
                 </Content>
                 <Price>
                   <strong>R$ {car.valorFormatado}</strong>
-                  <a href={car.urlOrigemBusca}>Ir para a página</a>
+                  <a href={car.urlAnuncio}>Ir para {car.origem}</a>
                 </Price>
               </CarItem>
             ))}

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 1500px;
@@ -23,7 +24,7 @@ export const SearchForm = styled.form`
   flex-direction: column;
   justify-content: space-between;
   width: 300px;
-  height: 800px;
+  height: 600px;
   border-radius: 5px;
 
   button {
@@ -36,6 +37,11 @@ export const SearchForm = styled.form`
     color: #fff;
     font-family: Roboto;
     font-size: 14px;
+    transition: background 0.4s;
+
+    &:hover {
+      background: ${darken(0.1, '#2980b9')};
+    }
   }
 `;
 export const FilterTitle = styled.strong`
